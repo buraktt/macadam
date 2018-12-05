@@ -20,7 +20,8 @@
   "dependencies": {
     "bindings": "^1.2.1",
     "highland": "^2.11.1",
-    "nan": "^2.6.2"
+    "nan": "^2.6.2",
+    "loglevel-colored-level-prefix": "1.0.0"
   },
   "gypfile": true
 }

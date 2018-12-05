@@ -50,6 +50,11 @@ var bindings = require('bindings');
 var macadamNative = bindings('macadam');
 const util = require('util');
 const EventEmitter = require('events');
+const LogLevel = require('loglevel-colored-level-prefix')
+
+const options = { prefix: '', level: 'error' }
+
+const logger = LogLevel(options)
 
 // var SegfaultHandler = require('../node-segfault-handler');
 // SegfaultHandler.registerHandler("crash.log");
@@ -73,7 +78,7 @@ Capture.prototype.start = function () {
     if (!this.initialised) {
       this.initialised = this.capture.init() ? true : false;
       if (!this.initialised) {
-        console.error('Cannot start capture when no device is present.');
+        logger.error('Cannot start capture when no device is present.');
         return 'Cannot start capture when no device is present.';
       }
     }
@@ -99,7 +104,7 @@ Capture.prototype.enableAudio = function (sampleRate, sampleType, channelCount) 
     if (!this.initialised) {
       this.initialised = this.capture.init() ? true : false;
       if (!this.initialised) {
-        console.error('Cannot initialise audio when no device is present.');
+        logger.error('Cannot initialise audio when no device is present.');
         return 'Cannot initialise audio when no device is present.';
       }
     }
@@ -129,12 +134,12 @@ util.inherits(Playback, EventEmitter);
 Playback.prototype.start = function () {
   try {
     if (!this.initialised) {
-      console.log("*** playback.init", this.playback.init());
+      this.playback.init()
       this.initialised = true;
     }
-    console.log("*** playback.doPlayback", this.playback.doPlayback(function (x) {
+     this.playback.doPlayback((x) => {
       this.emit('played', x);
-    }.bind(this)));
+    });
   } catch (err) {
     this.emit('error', err);
   }
@@ -159,7 +164,7 @@ Playback.prototype.frame = function (f, a) {
 
 Playback.prototype.stop = function () {
   try {
-    console.log('*** playback stop', this.playback.stop());
+    this.playback.stop();
     this.emit('done');
   } catch (err) {
     this.emit('error', err);
@@ -171,7 +176,7 @@ Playback.prototype.enableAudio = function (sampleRate, sampleType, channelCount)
     if (!this.initialised) {
       this.initialised = this.playback.init() ? true : false;
       if (!this.initialised) {
-        console.error('Cannot initialise audio when no device is present.');
+        logger.error('Cannot initialise audio when no device is present.');
         return 'Cannot initialise audio when no device is present.';
       }
     }
