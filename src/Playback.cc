@@ -363,7 +363,7 @@ NAUV_WORK_CB(Playback::FrameCallback) {
     v8::Local<v8::Value> argv[1] = { Nan::New(playback->result_) };
     cb.Call(1, argv);
   } else {
-    printf("Frame callback is empty. Assuming finished.\n");
+    // printf("Frame callback is empty. Assuming finished.\n");
   }
   uv_mutex_unlock(&playback->padlock);
 }
