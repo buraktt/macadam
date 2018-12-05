@@ -231,7 +231,7 @@ bool Capture::setupDeckLinkInput() {
     deckLinkDisplayMode->Release();
   }
 
-  printf("Width %li Height %li\n", m_width, m_height);
+  // printf("Width %li Height %li\n", m_width, m_height);
 
   displayModeIterator->Release();
 
